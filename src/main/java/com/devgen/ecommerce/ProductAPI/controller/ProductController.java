@@ -30,7 +30,7 @@ public class ProductController {
 
 	}
 
-	// @SuppressWarnings("unused")
+	
 	@GetMapping("/api/v1/products")
 	public List<Product> getAllProducts(@RequestParam(required = false) String category,
 			@RequestParam(required = false) String name,
