@@ -30,8 +30,12 @@ public class ProductService {
 
 	private void initilizeProduct() {
 		add(new Product("Laptop", Category.ELECTRONICS, 1000.00));
+		add(new Product("Laptop", Category.ELECTRONICS, 500.00));
+		add(new Product("Laptop", Category.ELECTRONICS, 700.00));
 		add(new Product("T-Shirt", Category.CLOTHING, 20.00));
-		add(new Product("Histroy", Category.BOOKS, 10.00));
+		add(new Product("History", Category.BOOKS, 100.00));
+		add(new Product("History", Category.BOOKS, 50.00));
+		add(new Product("History", Category.BOOKS, 20.00));
 		add(new Product("Table", Category.FURNITURE, 200.00));
 		add(new Product("Desktop", Category.ELECTRONICS, 500.00));
 		add(new Product("Shirt", Category.CLOTHING, 20.00));
@@ -41,7 +45,7 @@ public class ProductService {
 		add(new Product("Sofa", Category.FURNITURE, 200.00));
 		add(new Product("Tablet", Category.ELECTRONICS, 1000.00));
 		add(new Product("Trouser", Category.CLOTHING, 20.00));
-		add(new Product("Science-Fiction", Category.BOOKS, 10.00));
+		add(new Product("Science-Fiction", Category.BOOKS, 50.00));
 		add(new Product("Chair", Category.FURNITURE, 200.00));
 		add(new Product("Mobile", Category.ELECTRONICS, 1000.00));
 
@@ -67,7 +71,7 @@ public class ProductService {
 		return productMap.remove(id) != null;
 	}
 
-	public List<Product> searchByCategory(Category category) {
+	public  List<Product> searchByCategory(Category category) {
 		List<Product> matchingProduct = new ArrayList<>();
 		for (Product product : productMap.values()) {
 			if (product.getCategory().equals(category))
@@ -132,10 +136,23 @@ public class ProductService {
 		
 		
 		
-		return product.getPrice()>=lowerPrice&& product.getPrice()<=higherPrice;
+		return product.getPrice()>=lowerPrice && product.getPrice()<=higherPrice;
+	}
+	
+	public List<Product> searchWithAllParameter(String name,
+			Double lowerPrice,Double higherPrice){
+		
+		
+		List<Product> matchingProducts= productMap.values().stream().filter( (Product product)->isNameMatching(name, product)).
+				
+				filter((Product product)->isPriceRangeValid(lowerPrice,higherPrice, product)).
+				sorted(Comparator.comparingDouble(Product::getPrice)).
+				
+			
+				collect(Collectors.toList());
+		return matchingProducts;
+	
 	}
 	
 	
-	
-
 }

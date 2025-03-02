@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +32,7 @@ public class ProductController {
 		
 	}
 
+	@SuppressWarnings("unused")
 	@GetMapping("/api/v1/products")
 	public List<Product> getAllProducts(@RequestParam (required = false) String category,
 			@RequestParam(required = false) String name,
@@ -40,9 +41,9 @@ public class ProductController {
 	
 	
 	{
-		System.out.println("controller get all method.." +category);
-		System.out.println(lowerPrice+ "  :  " +higherPrice);
-		
+		//System.out.println("controller get all method.." +category);
+		//System.out.println(lowerPrice+ "  :  " +higherPrice);
+		System.out.println(name+" : " +lowerPrice+ "  :  " +higherPrice+ " : " +category);
 		if(category!=null  ) {
 			Category cat=Category.valueOf(category);
 			return productService.searchByCategory(cat);
@@ -52,6 +53,12 @@ public class ProductController {
 		}
 		if(lowerPrice!=null &&higherPrice!=null) {
 			return productService.searchByProductRange(lowerPrice,higherPrice);
+		}
+		if((name!=null) && (lowerPrice!=null &&higherPrice!=null) )  {
+			
+			
+			
+			return productService.searchWithAllParameter(name, lowerPrice, higherPrice);
 		}
 		
 		return productService.getAllProduct();
